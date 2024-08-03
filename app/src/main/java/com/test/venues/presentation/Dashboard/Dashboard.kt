@@ -1,11 +1,9 @@
 package com.test.venues.presentation.Dashboard
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,9 +42,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.test.venues.R
 import com.test.venues.common.LocationAcivity
 import com.test.venues.common.SharedPref
@@ -57,8 +52,6 @@ import com.test.venues.presentation.Dashboard.Terms.TermsScreen
 import com.test.venues.presentation.Login
 import com.test.venues.presentation.ui.theme.VenuesTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class Dashboard : LocationAcivity() {
@@ -80,8 +73,17 @@ class Dashboard : LocationAcivity() {
                         drawer()
                     }) {
                         when (screenIndex) {
-                            0 -> PermissionDeclinedScreen.invoke(modifier = Modifier, this@Dashboard)
-                            1 -> HomeScreen.invoke(modifier = Modifier, state = venuesViewModel.state,location)
+                            0 -> PermissionDeclinedScreen.invoke(
+                                modifier = Modifier,
+                                this@Dashboard
+                            )
+
+                            1 -> HomeScreen.invoke(
+                                modifier = Modifier,
+                                state = venuesViewModel.state,
+                                location
+                            )
+
                             2 -> ProfileScreen.invoke(modifier = Modifier, this@Dashboard)
                             3 -> TermsScreen.invoke(modifier = Modifier, this@Dashboard)
                         }
@@ -94,20 +96,22 @@ class Dashboard : LocationAcivity() {
     }
 
     override fun onLocationFetched(lat: Double, lng: Double) {
-        venuesViewModel.start(lat,lng)
+        venuesViewModel.start(lat, lng)
     }
 
     override fun permissionStatusChanged(flag: Boolean) {
-        screenIndex=if(flag) 1 else 0
+        screenIndex = if (flag) 1 else 0
     }
 
     @Preview
     @Composable
     fun drawer(modifier: Modifier = Modifier) {
-        Box(modifier = modifier
-            .fillMaxWidth(0.8f)
-            .fillMaxHeight(1f)
-            .background(Color.White)){
+        Box(
+            modifier = modifier
+                .fillMaxWidth(0.8f)
+                .fillMaxHeight(1f)
+                .background(Color.White)
+        ) {
             Column(
                 modifier
                     .fillMaxSize(1f),
@@ -128,7 +132,10 @@ class Dashboard : LocationAcivity() {
 
             }
             IconButton(
-                modifier = Modifier.size(40.dp).align(Alignment.BottomCenter).padding(bottom = 16.dp),
+                modifier = Modifier
+                    .size(40.dp)
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 16.dp),
                 onClick = {
                     SharedPref.setIsLogin(this@Dashboard, false)
                     finish()

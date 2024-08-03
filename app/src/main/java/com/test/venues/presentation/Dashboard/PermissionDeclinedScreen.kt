@@ -38,7 +38,8 @@ class PermissionDeclinedScreen {
                         .align(Alignment.Center)
                         .clickable {
                             dashboard.checkLocationPermission()
-                        }, horizontalAlignment = Alignment.CenterHorizontally) {
+                        }, horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = "",

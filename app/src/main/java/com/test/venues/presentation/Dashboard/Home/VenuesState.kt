@@ -1,6 +1,5 @@
 package com.test.venues.presentation.Dashboard.Home
 
-import com.test.venues.data.dto.Venue
 import com.test.venues.data.dto.VenuesDto
 
 data class VenuesState(

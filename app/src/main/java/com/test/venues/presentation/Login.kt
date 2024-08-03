@@ -2,9 +2,6 @@ package com.test.venues.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
-import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -50,13 +47,13 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.lifecycleScope
 import com.test.venues.R
-import com.test.venues.Room.AppDatabase
-import com.test.venues.Room.User
 import com.test.venues.common.SharedPref.Companion.saveAge
 import com.test.venues.common.SharedPref.Companion.saveEmail
 import com.test.venues.common.SharedPref.Companion.saveName
 import com.test.venues.common.SharedPref.Companion.setIsLogin
 import com.test.venues.common.Utils.Companion.isValidEmail
+import com.test.venues.data.room.AppDatabase
+import com.test.venues.data.room.User
 import com.test.venues.presentation.Dashboard.Dashboard
 import com.test.venues.presentation.ui.theme.VenuesTheme
 import kotlinx.coroutines.Dispatchers
@@ -70,13 +67,7 @@ class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = AppDatabase(this)
-        val regex =
-            Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@\$!%*#?&])[A-Za-z\\d@\$!%*#?&]{8,}\$")
-        Log.i("datadata", "1234567".matches(regex).toString())
-        Log.i("datadata", "12345678@".matches(regex).toString())
-        Log.i("datadata", "12345678@k".matches(regex).toString())
-        Log.i("datadata", "1234567@k".matches(regex).toString())
-        Log.i("datadata", "karim12@".matches(regex).toString())
+
         setContent {
             VenuesTheme {
                 // A surface container using the 'background' color from the theme
@@ -160,44 +151,44 @@ class Login : ComponentActivity() {
         OutlinedButton(
             onClick = {
 
-                    if (email.isEmpty()) {
-                        Toast.makeText(
-                            this@Login,
-                            "Email field is empty",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (!isValidEmail(email)) {
-                        Toast.makeText(
-                            this@Login,
-                            "Please write a valid email",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (password.isEmpty()) {
-                        Toast.makeText(
-                            this@Login,
-                            "Password field is empty",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            val user = db.userDao().findByEmailPassword(email, password)
-                            if (user != null) {
-                                saveName(this@Login, user.first + " " + user.last)
-                                saveEmail(this@Login, user.email)
-                                saveAge(this@Login, user.age)
-                                setIsLogin(this@Login,true)
-                                startActivity(Intent(this@Login, Dashboard::class.java))
-                            } else {
-                                lifecycleScope.launch(Dispatchers.Main) {
-                                    Toast.makeText(
-                                        this@Login,
-                                        "Wrong email or password",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+                if (email.isEmpty()) {
+                    Toast.makeText(
+                        this@Login,
+                        "Email field is empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (!isValidEmail(email)) {
+                    Toast.makeText(
+                        this@Login,
+                        "Please write a valid email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (password.isEmpty()) {
+                    Toast.makeText(
+                        this@Login,
+                        "Password field is empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val user = db.userDao().findByEmailPassword(email, password)
+                        if (user != null) {
+                            saveName(this@Login, user.first + " " + user.last)
+                            saveEmail(this@Login, user.email)
+                            saveAge(this@Login, user.age)
+                            setIsLogin(this@Login, true)
+                            startActivity(Intent(this@Login, Dashboard::class.java))
+                        } else {
+                            lifecycleScope.launch(Dispatchers.Main) {
+                                Toast.makeText(
+                                    this@Login,
+                                    "Wrong email or password",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
+                }
 
             },
             modifier
@@ -347,7 +338,7 @@ class Login : ComponentActivity() {
                     Toast.makeText(
                         this@Login,
                         "Last name field is empty",
-                        android.widget.Toast.LENGTH_SHORT
+                        Toast.LENGTH_SHORT
                     ).show()
                 } else if (age.isEmpty()) {
                     Toast.makeText(

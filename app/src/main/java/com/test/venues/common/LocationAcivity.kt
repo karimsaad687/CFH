@@ -6,7 +6,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,6 +25,7 @@ abstract class LocationAcivity : AppCompatActivity() {
         }
 
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkLocationPermission()
@@ -34,7 +34,7 @@ abstract class LocationAcivity : AppCompatActivity() {
     open fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(
                 this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestLocationPermissionLauncher.launch(
@@ -43,12 +43,12 @@ abstract class LocationAcivity : AppCompatActivity() {
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
             )
-        }else{
+        } else {
             fetchLocation()
         }
     }
 
-    fun fetchLocation(){
+    fun fetchLocation() {
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
         if (ActivityCompat.checkSelfPermission(
@@ -68,17 +68,19 @@ abstract class LocationAcivity : AppCompatActivity() {
             // for ActivityCompat#requestPermissions for more details.
             return
         }
-        locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100,
-            100f, mLocationListener);
+        locationManager!!.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER, 100,
+            100f, mLocationListener
+        )
     }
 
     private val mLocationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            onLocationFetched(location.latitude,location.longitude)
+            onLocationFetched(location.latitude, location.longitude)
         }
     }
 
-    abstract fun onLocationFetched(lat:Double,lng:Double)
+    abstract fun onLocationFetched(lat: Double, lng: Double)
 
-    abstract fun permissionStatusChanged(flag:Boolean)
+    abstract fun permissionStatusChanged(flag: Boolean)
 }

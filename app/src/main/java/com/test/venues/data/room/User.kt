@@ -1,4 +1,4 @@
-package com.test.venues.Room
+package com.test.venues.data.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Users")
 data class User(
-    @PrimaryKey(autoGenerate = true) val id:Int?=null,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = "first") var first: String,
     @ColumnInfo(name = "last") var last: String,
     @ColumnInfo(name = "age") var age: String,

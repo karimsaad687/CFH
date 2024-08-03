@@ -18,7 +18,7 @@ object VenuesModule {
 
     @Provides
     @Singleton
-    fun provideVenuesApi():VenuesApi{
+    fun provideVenuesApi(): VenuesApi {
         return Retrofit.Builder()
             .baseUrl("https://api.foursquare.com/v2/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -28,7 +28,7 @@ object VenuesModule {
 
     @Provides
     @Singleton
-    fun provideVenuesRepository(api:VenuesApi):VenuesRepository{
+    fun provideVenuesRepository(api: VenuesApi): VenuesRepository {
         return VenuesRepositoryImpl(api)
     }
 

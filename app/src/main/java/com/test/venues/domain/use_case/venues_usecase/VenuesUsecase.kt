@@ -10,9 +10,9 @@ import javax.inject.Inject
 class VenuesUsecase @Inject constructor(
     val venuesRepository: VenuesRepository
 ) {
-    operator fun invoke(lat:Double,lng:Double):Flow<Resource<VenuesDto>> = flow {
+    operator fun invoke(lat: Double, lng: Double): Flow<Resource<VenuesDto>> = flow {
         emit(Resource.Loading())
-        val result=venuesRepository.Venues(lat, lng)
+        val result = venuesRepository.Venues(lat, lng)
         emit(Resource.Success(result))
     }
 }

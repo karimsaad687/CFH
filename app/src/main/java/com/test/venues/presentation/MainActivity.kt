@@ -56,9 +56,9 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun openNewActivity() {
-        if(SharedPref.isLogin(this)){
+        if (SharedPref.isLogin(this)) {
             startActivity(Intent(this, Dashboard::class.java))
-        }else {
+        } else {
             startActivity(Intent(this, Login::class.java))
         }
         finish()

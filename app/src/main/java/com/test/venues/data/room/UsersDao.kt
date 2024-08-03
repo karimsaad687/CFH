@@ -1,4 +1,4 @@
-package com.test.venues.Room
+package com.test.venues.data.room
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -12,11 +12,11 @@ interface UsersDao {
     fun getAll(): List<User>
 
     @Query("SELECT * FROM Users WHERE email LIKE :email and password LIKE :password")
-    fun findByEmailPassword(email: String,password:String): User?
+    fun findByEmailPassword(email: String, password: String): User?
 
     @Insert
     fun insertUser(user: User)
 
     @Update
-    fun updateUser(user:User)
+    fun updateUser(user: User)
 }
