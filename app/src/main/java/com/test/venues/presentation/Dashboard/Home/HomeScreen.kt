@@ -119,7 +119,8 @@ class HomeScreen {
                                         color = Color.DarkGray,
                                         fontWeight = FontWeight.SemiBold
                                     )
-                                    Text(text = item.location.address)
+
+                                    Text(text = item.location.address?:"No address")
                                 }
 
                                 Row(modifier.padding(bottom = 8.dp)) {
