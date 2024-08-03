@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -143,6 +144,9 @@ class Login : ComponentActivity() {
             },
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null) },
+            trailingIcon = { Icon(painterResource(id = R.drawable.ic_eye), contentDescription = null,modifier.alpha(if (passwordVisible) 0.5f else 1.0f).clickable {
+                passwordVisible = !passwordVisible
+            }) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
@@ -320,6 +324,9 @@ class Login : ComponentActivity() {
             },
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null) },
+            trailingIcon = { Icon(painterResource(id = R.drawable.ic_eye), contentDescription = null,modifier.alpha(if (passwordVisible) 0.5f else 1.0f).clickable {
+                passwordVisible = !passwordVisible
+            }) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
