@@ -10,6 +10,9 @@ import com.test.venues.R
 class SharedPref {
 
     companion object{
+        fun setIsLogin(context: Context, flag:Boolean){
+            context.getSharedPreferences(context.getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean("isLogin",flag).apply()
+        }
         fun saveName(context: Context, name:String){
             context.getSharedPreferences(context.getString(R.string.app_name), MODE_PRIVATE).edit().putString("name",name).apply()
         }
@@ -18,6 +21,10 @@ class SharedPref {
         }
         fun saveAge(context: Context, age:String){
             context.getSharedPreferences(context.getString(R.string.app_name), MODE_PRIVATE).edit().putString("age",age).apply()
+        }
+
+        fun isLogin(context: Context):Boolean{
+            return context.getSharedPreferences(context.getString(R.string.app_name), MODE_PRIVATE).getBoolean("isLogin",false)
         }
 
         fun getName(context: Context):String?{

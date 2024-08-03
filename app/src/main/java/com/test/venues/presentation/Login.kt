@@ -55,6 +55,7 @@ import com.test.venues.Room.User
 import com.test.venues.common.SharedPref.Companion.saveAge
 import com.test.venues.common.SharedPref.Companion.saveEmail
 import com.test.venues.common.SharedPref.Companion.saveName
+import com.test.venues.common.SharedPref.Companion.setIsLogin
 import com.test.venues.common.Utils.Companion.isValidEmail
 import com.test.venues.presentation.Dashboard.Dashboard
 import com.test.venues.presentation.ui.theme.VenuesTheme
@@ -70,11 +71,12 @@ class Login : ComponentActivity() {
         super.onCreate(savedInstanceState)
         db = AppDatabase(this)
         val regex =
-            Regex("^[a-zA-Z0-9][a-zA-Z0-9\\@\\#\\\$\\%\\&\\*\\(\\)\\-\\_\\+\\[\\]\\';\\:\\?\\.\\,\\!\\^]{7,}[a-zA-Z0-9]+\$")
+            Regex("^[a-zA-Z0-9\\W]{8,}\$")
         Log.i("datadata", "1234567".matches(regex).toString())
-        Log.i("datadata", "12345678".matches(regex).toString())
         Log.i("datadata", "12345678@".matches(regex).toString())
         Log.i("datadata", "12345678@k".matches(regex).toString())
+        Log.i("datadata", "1234567@k".matches(regex).toString())
+        Log.i("datadata", "karim12@".matches(regex).toString())
         setContent {
             VenuesTheme {
                 // A surface container using the 'background' color from the theme
@@ -183,6 +185,7 @@ class Login : ComponentActivity() {
                                 saveName(this@Login, user.first + " " + user.last)
                                 saveEmail(this@Login, user.email)
                                 saveAge(this@Login, user.age)
+                                setIsLogin(this@Login,true)
                                 startActivity(Intent(this@Login, Dashboard::class.java))
                             } else {
                                 lifecycleScope.launch(Dispatchers.Main) {
@@ -370,7 +373,7 @@ class Login : ComponentActivity() {
                         "Paswword field is empty",
                         Toast.LENGTH_SHORT
                     ).show()
-                } else if (!password.matches(Regex("^[a-zA-Z0-9][a-zA-Z0-9\\@\\#\\\$\\%\\&\\*\\(\\)\\-\\_\\+\\[\\]\\';\\:\\?\\.\\,\\!\\^]{7,}[a-zA-Z0-9]+\$"))) {
+                } else if (!password.matches(Regex("^[a-zA-Z0-9\\W]{8,}\$"))) {
                     Toast.makeText(
                         this@Login,
                         "Password should be 8 characters long with Alphanumeric and Special\n" +

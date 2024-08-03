@@ -27,7 +27,6 @@ class VenuesViewModel @Inject constructor(
 
     fun start(lat:Double,lng:Double){
         venuesUsecase(lat,lng).onEach {
-            Log.i("datadata","done")
             when(it){
                 is Resource.Success->{
                     _state.value = VenuesState(false,it.data)

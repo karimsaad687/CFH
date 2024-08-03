@@ -12,6 +12,6 @@ class VenuesRepositoryImpl @Inject constructor(
     private val venuesApi: VenuesApi
 ): VenuesRepository{
     override suspend fun Venues(lat: Double, lng: Double): VenuesDto {
-        return venuesApi.venues(loc ="23.0340847,72.5084728")
+        return venuesApi.venues(loc ="$lat,$lng")
     }
 }

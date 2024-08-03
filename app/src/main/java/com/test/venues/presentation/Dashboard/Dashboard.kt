@@ -1,6 +1,7 @@
 package com.test.venues.presentation.Dashboard
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
@@ -32,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,8 +45,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.test.venues.R
+import com.test.venues.common.LocationAcivity
+import com.test.venues.common.SharedPref
 import com.test.venues.presentation.Dashboard.Home.HomeScreen
 import com.test.venues.presentation.Dashboard.Home.VenuesViewModel
 import com.test.venues.presentation.Dashboard.Profile.ProfileScreen
@@ -56,13 +62,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class Dashboard : AppCompatActivity() {
+class Dashboard : LocationAcivity() {
     private val venuesViewModel: VenuesViewModel by viewModels()
     private var screenIndex by mutableIntStateOf(1)
+    private var location by mutableStateOf("")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        venuesViewModel.start(23.0340847, 72.5084728)
 
         setContent {
             VenuesTheme {
@@ -76,7 +81,8 @@ class Dashboard : AppCompatActivity() {
                         drawer()
                     }) {
                         when (screenIndex) {
-                            1 -> HomeScreen.invoke(modifier = Modifier, state = venuesViewModel.state)
+                            0 -> PermissionDeclinedScreen.invoke(modifier = Modifier, this@Dashboard)
+                            1 -> HomeScreen.invoke(modifier = Modifier, state = venuesViewModel.state,location)
                             2 -> ProfileScreen.invoke(modifier = Modifier, this@Dashboard)
                             3 -> TermsScreen.invoke(modifier = Modifier, this@Dashboard)
                         }
@@ -85,6 +91,15 @@ class Dashboard : AppCompatActivity() {
             }
         }
 
+
+    }
+
+    override fun onLocationFetched(lat: Double, lng: Double) {
+        venuesViewModel.start(lat,lng)
+    }
+
+    override fun permissionStatusChanged(flag: Boolean) {
+        screenIndex=if(flag) 1 else 0
     }
 
     @Preview
@@ -116,6 +131,7 @@ class Dashboard : AppCompatActivity() {
             IconButton(
                 modifier = Modifier.size(40.dp).align(Alignment.BottomCenter).padding(bottom = 16.dp),
                 onClick = {
+                    SharedPref.setIsLogin(this@Dashboard, false)
                     finish()
                     startActivity(Intent(this@Dashboard, Login::class.java))
                 }

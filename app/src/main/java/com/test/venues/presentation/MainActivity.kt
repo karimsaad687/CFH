@@ -25,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.test.venues.R
+import com.test.venues.common.SharedPref
+import com.test.venues.presentation.Dashboard.Dashboard
 import com.test.venues.presentation.ui.theme.VenuesTheme
 import kotlinx.coroutines.delay
 
@@ -54,7 +56,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun openNewActivity() {
-        startActivity(Intent(this, Login::class.java))
+        if(SharedPref.isLogin(this)){
+            startActivity(Intent(this, Dashboard::class.java))
+        }else {
+            startActivity(Intent(this, Login::class.java))
+        }
         finish()
     }
 

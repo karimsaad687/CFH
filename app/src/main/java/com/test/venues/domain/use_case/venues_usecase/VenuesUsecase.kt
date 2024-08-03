@@ -14,7 +14,6 @@ class VenuesUsecase @Inject constructor(
 ) {
     operator fun invoke(lat:Double,lng:Double):Flow<Resource<VenuesDto>> = flow {
         emit(Resource.Loading())
-        Log.i("datadata","done 1")
         val result=venuesRepository.Venues(lat, lng)
         emit(Resource.Success(result))
     }

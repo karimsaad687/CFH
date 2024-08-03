@@ -43,7 +43,7 @@ class HomeScreen {
 
     companion object Test {
         @Composable
-        operator fun invoke(modifier: Modifier,state: State<VenuesState>) {
+        operator fun invoke(modifier: Modifier,state: State<VenuesState>,location:String) {
             Column(
                 modifier
                     .fillMaxSize()
@@ -65,7 +65,7 @@ class HomeScreen {
 
                 if(state.value.data==null){
                     Box(modifier = modifier.fillMaxSize()){
-                        Text(text = "Fetching data...", modifier.align(Alignment.Center),
+                        Text(text = "Fetching data and location...", modifier.align(Alignment.Center),
                             color = Color.DarkGray,
                             fontSize = 17.sp,
                             textAlign = TextAlign.Center,
