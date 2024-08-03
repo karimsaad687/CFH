@@ -1,9 +1,6 @@
 package com.test.venues.presentation.Dashboard.Terms
 
 import android.content.Context
-import android.util.Log
-import android.widget.ScrollView
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

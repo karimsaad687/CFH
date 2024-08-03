@@ -71,7 +71,7 @@ class Login : ComponentActivity() {
         super.onCreate(savedInstanceState)
         db = AppDatabase(this)
         val regex =
-            Regex("^[a-zA-Z0-9\\W]{8,}\$")
+            Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@\$!%*#?&])[A-Za-z\\d@\$!%*#?&]{8,}\$")
         Log.i("datadata", "1234567".matches(regex).toString())
         Log.i("datadata", "12345678@".matches(regex).toString())
         Log.i("datadata", "12345678@k".matches(regex).toString())
@@ -373,7 +373,7 @@ class Login : ComponentActivity() {
                         "Paswword field is empty",
                         Toast.LENGTH_SHORT
                     ).show()
-                } else if (!password.matches(Regex("^[a-zA-Z0-9\\W]{8,}\$"))) {
+                } else if (!password.matches(Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@\$!%*#?&])[A-Za-z\\d@\$!%*#?&]{8,}\$"))) {
                     Toast.makeText(
                         this@Login,
                         "Password should be 8 characters long with Alphanumeric and Special\n" +
